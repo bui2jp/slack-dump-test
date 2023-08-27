@@ -48,3 +48,20 @@ sh ./test_slack_msg_dump.sh
 
 ```
 
+# (補足) jq コマンドの例
+
+csv出力　※各項目の指定が必要
+```
+$ cat 1693036015.886299.json | jq -c '.messages[] | [.client_msg_id,.type] | @csv'
+$ cat 1693036015.886299.json | jq -r '.messages[] | [.client_msg_id,.type] | @csv'
+
+# "" を削除する
+$ cat 1693036015.886299.json | jq -r '.messages[] | [.client_msg_id,.type] | @csv' | sed 's/"//g'
+54FC1C6B-9801-408A-A85D-DFD502920D9F,message
+6FF85FBD-502F-4DAB-AD06-B7B762D42088,message
+3C83A6B4-DA71-43E7-8511-CF2B37DA6234,message
+```
+
+messages(配列)の client_msg_id と type を csv で出力
+※ messagesは配列である必要がある
+※ -c は改行を削除するオプション
